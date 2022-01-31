@@ -45,4 +45,5 @@ qlf <- glmQLFTest(fit, contrast = c(1, -1))
 
 diff_genes <- topTags(qlf, n = 20, sort.by = "logFC") |>
   pluck("table") |>
+  mutate(across(where(is.numeric), ~ round(.x, 3))) |>
   write_csv("results/GSE192829-DGE.csv")
