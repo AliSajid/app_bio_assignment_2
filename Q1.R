@@ -41,7 +41,7 @@ gene_data <-
     columns = c("SYMBOL", "GENENAME", "GENETYPE", "ENTREZID", "ENSEMBL"),
     multiVals = "first"
   ) |>
-  as.tibble() |>
+  as_tibble() |>
   group_by(ENSEMBL) |>
   slice_head(n = 1) |>
   ungroup() |>
@@ -77,6 +77,7 @@ qlf.A <- glmQLFTest(fit, contrast = contrasts[, "A"])
 
 diff_genes.A <- topTags(qlf.A, n = 10, sort.by = "logFC") |>
   pluck("table") |>
+  mutate(across(where(is.numeric), ~ round(.x, 3))) |>
   write_csv("results/GSE135635-A-DGE.csv")
 
 # Comparison B ------------------------------------------------------------
@@ -85,6 +86,7 @@ qlf.B <- glmQLFTest(fit, contrast = contrasts[, "B"])
 
 diff_genes.B <- topTags(qlf.B, n = 10, sort.by = "logFC") |>
   pluck("table") |>
+  mutate(across(where(is.numeric), ~ round(.x, 3))) |>
   write_csv("results/GSE135635-B-DGE.csv")
 
 # Comparison C -------------------------------------------------------------
@@ -93,4 +95,5 @@ qlf.C <- glmQLFTest(fit, contrast = contrasts[, "C"])
 
 diff_genes.C <- topTags(qlf.C, n = 10, sort.by = "logFC") |>
   pluck("table") |>
+  mutate(across(where(is.numeric), ~ round(.x, 3))) |>
   write_csv("results/GSE135635-C-DGE.csv")
