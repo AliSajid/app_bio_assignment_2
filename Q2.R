@@ -21,8 +21,8 @@ sample_data <- pData(experiment[["GSE192829_series_matrix.txt.gz"]]) |>
 getGEOSuppFiles(GSE, baseDir = "datafiles", filter_regex = "raw")
 
 count_data <- read_tsv("datafiles/GSE192829/GSE192829_DK20193B_DK20141B_DK21066B_raw_counts.txt.gz") |>
-  rename(Gene = ...1) |>
-  column_to_rownames("Gene")
+  rename(rowname = ...1) |>
+  column_to_rownames()
 
 
 dge <- DGEList(counts = count_data, samples = sample_data,
